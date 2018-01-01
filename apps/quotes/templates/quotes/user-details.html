@@ -1,0 +1,42 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title>{{ title }}</title>
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#id_birth_date" ).datepicker({
+      showOn: "button",
+      dateFormat: "yy-mm-dd",
+      buttonImage: "https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678116-calendar-20.png",
+      buttonImageOnly: true,
+      buttonText: "Select date"
+    });
+  } );
+  </script>
+</head>
+<body>
+<div class="user-data">
+	<p>Posted By {{ userinfo }}</p>
+	<p>Count : {{ user_quotes.count }}</p>
+	<div class="user-action" style="float: right; margin-right: 100px;margin-top: -40px;">
+	<a href="{% url 'quotes' %}">Dashboard</a>
+	<a>|</a>
+	<a href="{% url 'logout' %}">Logout</a>
+	</div>
+
+<br>
+<div class="quotes" style="width:700px;">
+	{% for qt in user_quotes %}
+<p><span style="color: red;">{{ qt.quoted_by }} :</span> {{ qt.message }}</p>
+{% endfor %}
+</div>
+</div>
+</body>
+</html>

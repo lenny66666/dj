@@ -1,0 +1,58 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title>{{ title }}</title>
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#id_birth_date" ).datepicker({
+      showOn: "button",
+      dateFormat: "yy-mm-dd",
+      buttonImage: "https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678116-calendar-20.png",
+      buttonImageOnly: true,
+      buttonText: "Select date"
+    });
+  } );
+  </script>
+</head>
+<body>
+<div class="reg" style="width: 400px; margin-left: 250px;float: left;">
+	<form method="POST" action="{% url 'signup' %}">{% csrf_token %}
+<fieldset>
+	  <legend>Register:</legend>
+
+	     
+       <p> Name : <input type="text" name="name" required id="id_name" /></p>
+        <p>Alias: <input type="text" name="username" autofocus required id="id_username" maxlength="150" /></p>
+         <p>Email address: <input type="email" name="email" id="id_email" maxlength="254"  required/></p>
+         <p>Password: <input type="password" name="password1" required id="id_password1" />
+         </p><small>*password should be at least 8 characters.</small>
+        
+        <p> Confirm PW: <input type="password" name="password2" required id="id_password2" /></p>
+        
+        <p>Date of Birth: <input type="text" name="birth_date" required id="id_birth_date" /></p>
+       
+	 <input value="Register" type="submit">
+
+	 </fieldset>
+	</form>
+</div>
+
+<div class="log" style="width: 300px; float: right; margin-right: 350px">
+	<form method="POST" action="{% url 'login' %}">{% csrf_token %}
+	 <fieldset>
+	  <legend>Login:</legend>
+	 {{ login.as_p }}
+	 <input value="Login" type="submit">
+	 </fieldset>
+	</form>
+</div>
+
+</body>
+</html>

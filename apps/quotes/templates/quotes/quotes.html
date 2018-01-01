@@ -1,0 +1,69 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title>{{ title }}</title>
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#id_birth_date" ).datepicker({
+      showOn: "button",
+      dateFormat: "yy-mm-dd",
+      buttonImage: "https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678116-calendar-20.png",
+      buttonImageOnly: true,
+      buttonText: "Select date"
+    });
+  } );
+  </script>
+</head>
+<body>
+<div class="main">
+	<a style="float:right;" href="{% url 'logout' %}">Logout</a>
+	<h3>Welcome {{ request.user }}</h3>
+	<p>Quotable Quote</p>
+	<div class="qarea">
+		<div class="quotable">
+			{% for qu in quotes %}
+			<div class="quote">
+				<p><span>{{ qu.quoted_by }} : {{ qu.message }}</span></p>
+				<div class="quote-action">
+					<small>Posted by : </small><a href="{% url 'users-details' qu.user.id %}"><small>{{ qu.user }}</small></a>
+					<a class="fev" href="{% url 'add-to-fev' qu.id %}">Add to My List</a>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+
+ <fieldset class="quotablefev" ">
+  <legend>Your Favorites</legend>
+			{% for qfev in quotes_fev %}
+			<div class="quote">
+				<p><span>{{ qfev.quote.quoted_by }} : {{ qfev.quote.message }}</span></p>
+				<div class="quote-action">
+					<small>Posted by : </small><a href=""><small>{{ qfev.quote.user }}</small></a>
+					<a class="fev" href="{% url 'remove-to-fev' qfev.quote.id %}">Remove to My List</a>
+				</div>
+			</div>
+			{% endfor %}
+</fieldset>
+
+<div class="quote-create" style="width: 400px;float: right; margin-right: 200px;margin-top: 20px;">
+	<p style="margin-left: 0px;">Contribuet a Quote</p>
+	<hr>
+<form method="POST" action="{% url 'quotes' %}">{% csrf_token %}
+
+	{{ form.as_p }}
+		<input style="float: right;margin-right: 73px;margin-top: 14px;" value="SUBMIT" type="submit">
+		</form>
+</div>
+
+</div>
+</div>
+
+</body>
+</html>
